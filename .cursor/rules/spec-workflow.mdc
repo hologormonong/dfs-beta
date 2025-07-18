@@ -1,0 +1,40 @@
+---
+description: Automatically initiate a Kiro-like spec-driven workflow for every new project
+globs: 
+alwaysApply: true
+---
+# Mimic Kiro Workflow Rule
+- **Objective**: Automatically initiate a Kiro-like spec-driven development process for every new project.
+- **Steps**:
+  1. **Prompt for Requirements**:
+     - When a user starts a new project or provides a feature prompt (e.g., "Add a review system"), generate a `requirements.md` file.
+     - Use the Easy Approach to Requirements Syntax (EARS) notation: "WHEN [condition/event] THE SYSTEM SHALL [expected behavior]."
+     - Include sections: Overview, User Stories, Non-Functional Requirements.
+     - If the prompt is vague, ask clarifying questions (e.g., "What are the key features?" or "Any specific tech stack?").
+     - Save as `requirements.md` in the project root.
+  2. **Generate Design**:
+     - After `requirements.md` is created or updated, generate a `design.md` file based on its content.
+     - Include: System components, data models, API endpoints, sequence diagrams (Mermaid format), error handling, testing strategies, and security considerations.
+     - Analyze existing project files (e.g., `@package.json`, `@tsconfig.json`) for context if available; otherwise, assume a default stack (e.g., React, Node.js, MongoDB).
+     - Save as `design.md` in the project root.
+  3. **Create Tasks**:
+     - Based on `design.md`, generate a `tasks.md` file with a sequenced list of implementation tasks.
+     - Each task should include: Description, Expected Outcome, Dependencies, Considerations (e.g., tests, accessibility).
+     - Sequence tasks logically (e.g., database setup before API implementation).
+     - Save as `tasks.md` in the project root.
+  4. **Workflow Guidance**:
+     - Prompt the user to review and approve `requirements.md` before proceeding to `design.md` (e.g., "Review @requirements.md and type 'approve' to continue").
+     - After `design.md` approval, proceed to `tasks.md`.
+     - Offer to execute tasks from `tasks.md` individually (e.g., "Implement Task 1 from @tasks.md") using Agent mode.
+- **Context**:
+  - Reference existing project files (e.g., `@package.json`, `@requirements.md`, `@design.md`) for context if present.
+  - If no project files exist, assume a generic web app stack (React frontend, Node.js backend, MongoDB database) unless specified.
+- **Error Prevention**:
+  - Avoid generic placeholders; tailor content to the prompt or project context.
+  - Pause and request clarification if the prompt lacks detail.
+  - Ensure all user stories from `requirements.md` are addressed in `design.md` and `tasks.md`.
+- **Example Prompt Response**:
+  - For "Add a review system":
+    - Generate `requirements.md` with user stories like "WHEN a user submits a review THE SYSTEM SHALL validate the rating."
+    - Follow with `design.md` including a review API endpoint.
+    - Then `tasks.md` with tasks like "Set up review schema" and "Implement API endpoint."
